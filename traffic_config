@@ -1,0 +1,25 @@
+##flowfile name was created before 15 mins so must minus 900 seconds in timestamp
+declare -i timestamp=$(date "+%s")-900
+
+declare -i lastmonth=$(date "+%s")-5184000
+
+filename_format=ft-v05.$(date "+%Y-%m-%d.%H%M" --date="@"$timestamp)
+
+time_format=$(date "+%Y/%Y-%m/%Y-%m-%d")
+
+netflow_path="/netflow/$time_format/$filename_format*"
+
+sql_user="netflow"
+
+sql_pw="*****"
+
+database="netflow"
+
+octets_table=octet_$(date "+%Y%m%d")
+
+flows_table=flow_$(date "+%Y%m%d")
+
+#drop both tables last two months
+drop_octets=octet_$(date "+%Y%m%d" --date="@"$lastmonth)
+
+drop_flows=flow_$(date "+%Y%m%d" --date="@"$lastmonth)
